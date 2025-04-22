@@ -1,0 +1,58 @@
+{
+  "name": "porto-discord-ui",
+  "bucket": "porto-discord-ui",
+  "preset": "next",
+  "env": "production",
+  "prefix": "20250422201025",
+  "not-first-run": true,
+  "function": {
+    "id": 43162,
+    "name": "__DEFAULT__",
+    "file": ".edge/worker.js",
+    "args": "azion/args.json",
+    "instance-id": 40485,
+    "instance-name": "__DEFAULT__",
+    "cache-id": 228550
+  },
+  "application": {
+    "id": 1745361142,
+    "name": "__DEFAULT__"
+  },
+  "domain": {
+    "id": 1745368642,
+    "name": "porto-discord-ui",
+    "domain_name": "u94cfijuyk.map.azionedge.net",
+    "url": "https://u94cfijuyk.map.azionedge.net"
+  },
+  "rt-purge": {
+    "purge_on_publish": true
+  },
+  "origin": [
+    {
+      "origin-id": 209104,
+      "origin-key": "87944b0c-d9fd-46b0-91ba-59936c131dd4",
+      "name": "origin-storage-default"
+    }
+  ],
+  "rules-engine": {
+    "created": false,
+    "rules": [
+      {
+        "id": 398238,
+        "name": "Set Storage Origin for All Requests",
+        "phase": "request"
+      },
+      {
+        "id": 398239,
+        "name": "Deliver Static Assets",
+        "phase": "request"
+      },
+      {
+        "id": 398240,
+        "name": "Execute Edge Function",
+        "phase": "request"
+      }
+    ]
+  },
+  "cache-settings": []
+}
