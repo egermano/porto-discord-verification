@@ -1,0 +1,46 @@
+name: CD - UI Edge Deploy
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "main"
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install NPM dependencies
+        run: pnpm install
+        
+      - name: Install Azion CLI
+        run: |
+          curl -o azionlinux https://downloads.azion.com/linux/x86_64/azion
+          sudo mv azionlinux /usr/bin/azion
+          sudo chmod u+x /usr/bin/azion
+
+      - name: Azion Action Deploy
+        working-directory: apps/ui
+        run: |
+          azion -t ${{ secrets.AZION_PERSONAL_TOKEN }}
+          azion deploy
