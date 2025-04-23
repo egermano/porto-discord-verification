@@ -18,14 +18,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: 18
+          version: 10
+
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
       - name: Install NPM dependencies
-        run: npm i
+        run: pnpm install
         
       - name: Install Azion CLI
         run: |
