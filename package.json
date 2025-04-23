@@ -1,0 +1,21 @@
+{
+  "name": "porto-discord-verification",
+  "version": "1.0.0",
+  "description": "Discord verification app to onboarding new users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "google",
+    "github",
+    "sso",
+    "verification"
+  ],
+  "author": "Bruno Germano <bruno@egermano.com>",
+  "license": "ISC",
+  "workspaces": [
+    "apps/*"
+  ]
+}

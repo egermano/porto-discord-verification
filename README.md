@@ -2,6 +2,8 @@
 
 A Discord bot that helps verify members of a community, ensuring a secure and trusted environment for community interactions.
 
+**Porto** means Gate in Italian, and this bot serves as a gatekeeper for your Discord server, verifying members before granting them access to the community.
+
 ## ⚠️ Work in Progress ⚠️
 
 This project is currently under active development. Features may be incomplete, and changes can happen frequently. Please keep this in mind when exploring the codebase.
