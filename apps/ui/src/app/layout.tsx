@@ -1,3 +1,5 @@
+import Footer from "@/components/footer";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -18,10 +20,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main>
-          {children}
-          <Toaster />
-        </main>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="flex min-h-screen flex-col px-24 py-16">
+            {children}
+            <Footer />
+            <Toaster />
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
