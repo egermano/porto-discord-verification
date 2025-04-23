@@ -13,7 +13,7 @@ export default function Home() {
           <strong>{config.communityName}</strong> discord.
         </p>
         <p className="mt-4 text-lg">
-          <Link href={"/auth/signin"}>
+          <Link href={"/signin"}>
             <Button asChild>
               <span>
                 Sign in to start <ArrowRight />
