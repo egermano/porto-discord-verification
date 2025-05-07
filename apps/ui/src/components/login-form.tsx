@@ -2,13 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
 import { cn } from "@/lib/utils";
-import { createAuthClient } from "better-auth/client";
 import { GalleryVerticalEnd } from "lucide-react";
 import { useRouter } from "next/navigation";
-
-const authClient = createAuthClient({
-  baseURL: 'http://localhost:3333',
-}); 
 
 export function LoginForm({
   className,
@@ -17,11 +12,6 @@ export function LoginForm({
   const router = useRouter();
 
   const goToDiscord = async () => {
-    const data = await authClient.signIn.social({
-      provider: "github",
-    });
-
-    console.log("data", data);
     router.push("/discord");
   };
   return (
