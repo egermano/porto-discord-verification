@@ -2,19 +2,27 @@
 
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useRouter } from "next/navigation";
 
 interface Question {
   question: string;
-  type: "radio" | "checkbox";
+  type: "radio" | "checkbox" | "select";
   instruction?: string;
   options: Record<string, string>;
 }
@@ -34,7 +42,7 @@ const formQuestions: Question[] = [
   },
   {
     question: "Whats is your company size?",
-    type: "radio",
+    type: "select",
     instruction: "Please select one option.",
     options: {
       small: "1-10",
@@ -70,8 +78,20 @@ const formQuestions: Question[] = [
 ];
 
 export default function LeadForm() {
+  const router = useRouter();
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Handle form submission logic here
+    console.log("Form submitted");
+    router.push("/success");
+  };
+
   return (
-    <form className="flex flex-col items-center justify-center space-y-4">
+    <form
+      className="flex flex-col items-center justify-center space-y-4"
+      onSubmit={handleSubmit}
+    >
       {formQuestions.map((question, index) => (
         <Card key={question.question} className="w-full">
           <CardHeader>
@@ -104,6 +124,21 @@ export default function LeadForm() {
                   </div>
                 ))}
               </RadioGroup>
+            )}
+
+            {question.type === "select" && (
+              <Select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select an option" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(question.options).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {value}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             )}
           </CardContent>
         </Card>
