@@ -1,0 +1,33 @@
+{
+  "name": "hono-boilerplate",
+  "version": "1.0.0",
+  "description": "hono boilerplate",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "DEBUG=true pnpm dlx edge-functions@5.0.2 dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "aziontech",
+  "license": "ISC",
+  "dependencies": {
+    "@hono/zod-validator": "^0.5.0",
+    "@libsql/client": "^0.15.4",
+    "@prisma/client": "^6.7.0",
+    "azion": "latest",
+    "better-auth": "^1.2.7",
+    "better-sqlite3": "^11.9.1",
+    "dotenv": "^16.5.0",
+    "drizzle-orm": "^0.43.1",
+    "hono": "^4.5.3",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.1",
+    "edge-functions": "5.0.2",
+    "prisma": "^6.7.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.4.2"
+  }
+}
