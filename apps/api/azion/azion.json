@@ -27,7 +27,9 @@
   "rt-purge": {
     "purge_on_publish": true
   },
-  "origin": [],
+  "origin": [
+    "http://localhost:3000"
+  ],
   "rules-engine": {
     "created": false,
     "rules": [
