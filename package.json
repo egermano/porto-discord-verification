@@ -18,8 +18,5 @@
   "workspaces": [
     "apps/*"
   ],
-  "dependencies": {
-    "react-confetti": "^6.4.0",
-    "react-use": "^17.6.0"
-  }
+  "dependencies": {}
 }
