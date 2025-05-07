@@ -25,3 +25,5 @@ yarn-error.log*
 # azion
 .edge
 .vulcan
+
+azion-*.temp.ts
