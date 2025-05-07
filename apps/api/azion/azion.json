@@ -3,7 +3,7 @@
   "bucket": "",
   "preset": "javascript",
   "env": "production",
-  "prefix": "20250507171549",
+  "prefix": "20250507200504",
   "not-first-run": true,
   "function": {
     "id": 43923,
@@ -27,9 +27,7 @@
   "rt-purge": {
     "purge_on_publish": true
   },
-  "origin": [
-    "http://localhost:3000"
-  ],
+  "origin": [],
   "rules-engine": {
     "created": false,
     "rules": [
