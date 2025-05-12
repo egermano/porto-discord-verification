@@ -27,7 +27,13 @@
   "rt-purge": {
     "purge_on_publish": true
   },
-  "origin": [],
+  "origin": [
+    {
+      "origin-id": 212265,
+      "origin-key": "708e8184-0fe0-4863-ac5f-a329b0eaf826",
+      "name": "porto-discord-api_single"
+    }
+  ],
   "rules-engine": {
     "created": false,
     "rules": [
@@ -38,5 +44,10 @@
       }
     ]
   },
-  "cache-settings": []
+  "cache-settings": [
+    {
+      "id": 231671,
+      "name": "function-policy"
+    }
+  ]
 }
