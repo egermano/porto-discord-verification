@@ -80,6 +80,9 @@ importers:
       azion:
         specifier: latest
         version: 1.19.1(@babel/core@7.26.10)(@fastly/js-compute@3.34.0)
+      better-auth:
+        specifier: ^1.2.7
+        version: 1.2.7
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -11160,7 +11163,7 @@ snapshots:
     optionalDependencies:
       esbuild: 0.25.2
 
-  terser-webpack-plugin@5.3.14(esbuild@0.25.4)(webpack@5.99.8(esbuild@0.25.2)):
+  terser-webpack-plugin@5.3.14(esbuild@0.25.4)(webpack@5.99.8):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
@@ -11460,7 +11463,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.2
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.14(esbuild@0.25.4)(webpack@5.99.8(esbuild@0.25.2))
+      terser-webpack-plugin: 5.3.14(esbuild@0.25.4)(webpack@5.99.8)
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:

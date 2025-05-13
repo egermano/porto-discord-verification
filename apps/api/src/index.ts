@@ -1,8 +1,17 @@
 import { auth } from "@/lib/auth";
 import { createRouter } from "@/lib/create-app";
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 const app = new Hono();
+app.use(
+  "/api/*",
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 const authRouter = createRouter();
 
 authRouter.on(["POST", "GET"], "/auth/**", (c) => {

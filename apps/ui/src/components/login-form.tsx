@@ -1,19 +1,34 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
+import { authClient, useSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
-
-  const goToDiscord = async () => {
-    router.push("/discord");
+  const {
+    data: session,
+    isPending, //loading state
+    error, //error object
+    refetch, //refetch the session
+  } = useSession();
+  console.log({
+    session,
+    isPending,
+    error,
+    refetch,
+  })
+    
+  const loginTo = (provider: "github" | "google") => async () => {
+    authClient.signIn.social({
+      provider,
+      callbackURL: `${window.location.origin}/discord`,
+    });
   };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <div className="flex flex-col gap-6">
@@ -32,7 +47,7 @@ export function LoginForm({
             variant="outline"
             size="lg"
             className="w-full"
-            onClick={goToDiscord}
+            onClick={loginTo("github")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +63,7 @@ export function LoginForm({
             variant="outline"
             size="lg"
             className="w-full"
-            onClick={goToDiscord}
+            onClick={loginTo("google")}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path
