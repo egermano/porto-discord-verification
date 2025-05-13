@@ -1,31 +1,28 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
-import { authClient, useSession } from "@/lib/auth";
+import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const {
-    data: session,
-    isPending, //loading state
-    error, //error object
-    refetch, //refetch the session
-  } = useSession();
-  console.log({
-    session,
-    isPending,
-    error,
-    refetch,
-  })
+}: React.ComponentPropsWithoutRef<"div">) { 
+  const router = useRouter();
     
   const loginTo = (provider: "github" | "google") => async () => {
     authClient.signIn.social({
       provider,
       callbackURL: `${window.location.origin}/discord`,
+    }, {
+      onError: (error) => {
+        console.error("Error during login:", error);
+
+        // TODO: create /error page
+        router.push("/error");
+      }
     });
   };
 
