@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "DEBUG=true pnpm dlx edge-functions@5.0.2 dev",
+    "build": "pnpm dlx edge-functions@5.0.2 build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

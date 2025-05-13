@@ -1,5 +1,5 @@
-import { DATABASE_AUTH_TOKEN, DATABASE_URL } from "@/constants";
 import { drizzle } from "drizzle-orm/libsql";
+import { DATABASE_AUTH_TOKEN, DATABASE_URL } from "../constants";
 
 export const db = drizzle({
   connection: {
