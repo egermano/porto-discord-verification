@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { createRouter } from "@/lib/create-app";
-import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { Hono } from "hono/quick";
 
 const app = new Hono();
 app.use(
