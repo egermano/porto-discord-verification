@@ -3,7 +3,7 @@
   "bucket": "",
   "preset": "javascript",
   "env": "production",
-  "prefix": "20250507200504",
+  "prefix": "20250513200622",
   "not-first-run": true,
   "function": {
     "id": 43923,
@@ -27,13 +27,7 @@
   "rt-purge": {
     "purge_on_publish": true
   },
-  "origin": [
-    {
-      "origin-id": 212265,
-      "origin-key": "708e8184-0fe0-4863-ac5f-a329b0eaf826",
-      "name": "porto-discord-api_single"
-    }
-  ],
+  "origin": [],
   "rules-engine": {
     "created": false,
     "rules": [
@@ -44,10 +38,5 @@
       }
     ]
   },
-  "cache-settings": [
-    {
-      "id": 231671,
-      "name": "function-policy"
-    }
-  ]
+  "cache-settings": []
 }
