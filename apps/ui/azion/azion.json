@@ -3,7 +3,7 @@
   "bucket": "porto-discord-ui",
   "preset": "next",
   "env": "production",
-  "prefix": "20250507203059",
+  "prefix": "20250513194823",
   "not-first-run": true,
   "function": {
     "id": 43162,
@@ -32,11 +32,6 @@
       "origin-id": 209104,
       "origin-key": "87944b0c-d9fd-46b0-91ba-59936c131dd4",
       "name": "origin-storage-default"
-    },
-    {
-      "origin-id": 209102,
-      "origin-key": "bf0a2fd9-6e05-4b40-bffd-05ff5edf7856",
-      "name": "porto-discord-ui_single"
     }
   ],
   "rules-engine": {
