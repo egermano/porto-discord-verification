@@ -9,21 +9,21 @@ import { useRouter } from "next/navigation";
 export function LoginForm({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) { 
+}: React.ComponentPropsWithoutRef<"div">) {
   const router = useRouter();
-    
-  const loginTo = (provider: "github" | "google") => async () => {
-    authClient.signIn.social({
-      provider,
-      callbackURL: `${window.location.origin}/discord`,
-    }, {
-      onError: (error) => {
-        console.error("Error during login:", error);
 
+  const loginTo = (provider: "github" | "google") => async () => {
+    await authClient.signIn.social(
+      {
+        provider,
+        callbackURL: `${window.location.origin}/discord`,
         // TODO: create /error page
-        router.push("/error");
-      }
-    });
+        errorCallbackURL: `${window.location.origin}/error`,
+        fetchOptions: {
+          credentials: "include",
+        },
+      },
+    );
   };
 
   return (
