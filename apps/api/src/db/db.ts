@@ -1,9 +1,10 @@
-import { drizzle } from "drizzle-orm/libsql";
+import { Kysely } from "kysely";
 import { DATABASE_AUTH_TOKEN, DATABASE_URL } from "../constants";
+import { AzionDialect } from "./AzionDialect";
 
-export const db = drizzle({
-  connection: {
+export const db = new Kysely({
+  dialect: new AzionDialect({
     url: DATABASE_URL,
-    authToken: DATABASE_AUTH_TOKEN,
-  },
+    token: DATABASE_AUTH_TOKEN,
+  }),
 });
