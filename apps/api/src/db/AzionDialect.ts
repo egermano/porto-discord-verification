@@ -59,14 +59,13 @@ class FetchConnection {
     compiledQuery: kysely.CompiledQuery
   ): Promise<kysely.QueryResult<R>> {
     const params = [...compiledQuery.parameters];
+
     const request = {
       statements: [
-        compiledQuery.sql.replace(
-          /\?/g,
-          (() => {
-            return `'${params.shift()}'` || "?";
-          })()
-        ),
+        compiledQuery.sql.replace(/\?/g, () => {
+          const value = params.shift();
+          return value !== undefined ? `'${value}'` : "?";
+        }),
       ],
     };
 
@@ -83,10 +82,19 @@ class FetchConnection {
         body: JSON.stringify(request),
         ...this.config.init,
       },
-      true,
+      false,
       true
     );
 
-    return response.data[0].results;
+    // Transform the response into [{[column_name]: [row_value]}]
+    const { columns, rows } = response.data[0].results;
+    const transformedRows = rows.map((row: any[]) =>
+      columns.reduce((acc: any, col: string, idx: number) => {
+      acc[col] = row[idx];
+      return acc;
+      }, {})
+    );
+
+    return { rows: transformedRows };
   }
 }
