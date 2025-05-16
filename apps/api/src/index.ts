@@ -5,13 +5,16 @@ import { Hono } from "hono/quick";
 
 const app = new Hono();
 app.use(
-  "/api/*",
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
+	"/api/auth/*", // or replace with "*" to enable cors for all routes
+	cors({
+		origin: "http://localhost:3000", // replace with your origin
+		allowHeaders: ["Content-Type", "Authorization"],
+		allowMethods: ["POST", "GET", "OPTIONS"],
+		exposeHeaders: ["Content-Length"],
+		maxAge: 600,
+		credentials: true,
+	}),
 );
-
 const authRouter = createRouter();
 
 authRouter.on(["POST", "GET"], "/auth/**", (c) => {
