@@ -1,17 +1,10 @@
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "@/constants";
 import { db } from "@/db/db";
-import * as schema from "@/db/schema";
 import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { jwt } from "better-auth/plugins";
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: "sqlite", // or "mysql", "sqlite"
-    schema: {
-      ...schema,
-    },
-  }),
+  database: { db, type: "sqlite" },
   trustedOrigins: ["http://localhost:3000"],
   socialProviders: {
     github: {
