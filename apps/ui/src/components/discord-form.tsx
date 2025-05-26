@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
+import { APP_BASE_URL } from "@/constants";
 import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
@@ -9,16 +10,10 @@ export function DiscordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  let currentLocation = null;
-
-  if (typeof window !== "undefined") {
-    currentLocation = window.location; // Access location only in the browser
-  }
-
   const gotToLeadForm = async () => {
     await authClient.linkSocial({
       provider: "discord",
-      callbackURL: `${currentLocation?.origin}/form`,
+      callbackURL: `${APP_BASE_URL}/form`,
     });
   };
   return (
