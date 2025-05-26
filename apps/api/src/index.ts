@@ -1,4 +1,6 @@
-import { authRouter, Session, sessionMiddleware, User } from "@/routes/auth.js";
+import { Session, User } from "@/lib/auth";
+import { authRouter, sessionMiddleware } from "@/routes/auth";
+import { userRoute } from "@/routes/user";
 import { cors } from "hono/cors";
 import { Hono } from "hono/quick";
 
@@ -25,7 +27,7 @@ app.use(
 // Session Middleware
 app.use("*", sessionMiddleware);
 
-const routes = [authRouter] as const;
+const routes = [authRouter, userRoute] as const;
 
 routes.forEach((route) => {
   app.basePath("/api").route("/", route);

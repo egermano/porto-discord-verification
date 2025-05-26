@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth, Session, User } from "@/lib/auth";
 import { createRouter } from "@/lib/create-app";
 import { Context, Next } from "hono";
 
@@ -35,6 +35,3 @@ const sessionMiddleware = async (
 };
 
 export { authRouter, sessionMiddleware };
-
-export type User = typeof auth.$Infer.Session.user;
-export type Session = typeof auth.$Infer.Session.session;
