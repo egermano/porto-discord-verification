@@ -39,7 +39,8 @@ export const auth = betterAuth({
     additionalFields: {
       leadForm: {
         type: "string",
-        default: {},
+        defaultValue: "",
+        required: false,
       },
     },
   },
