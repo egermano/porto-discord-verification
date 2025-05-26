@@ -2,11 +2,23 @@ name: UI CI
 
 on:
   push:
+    path:
+      - apps/ui/**/*
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
     branches:
       - main
+      - canary
   pull_request:
+    path:
+      - apps/ui/**/*
+      - package.json
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
     branches:
       - main
+      - canary
 
 jobs:
   test-and-build:
