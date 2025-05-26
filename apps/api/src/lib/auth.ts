@@ -1,4 +1,10 @@
-import { BETTER_AUTH_SECRET, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "@/constants";
+import {
+  BETTER_AUTH_SECRET,
+  DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_SECRET,
+  GITHUB_CLIENT_ID,
+  GITHUB_CLIENT_SECRET,
+} from "@/constants";
 import { db } from "@/db/db";
 import { betterAuth } from "better-auth";
 
@@ -23,6 +29,18 @@ export const auth = betterAuth({
     github: {
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
+    },
+    discord: {
+      clientId: DISCORD_CLIENT_ID,
+      clientSecret: DISCORD_CLIENT_SECRET,
+    },
+  },
+  user: {
+    additionalFields: {
+      leadForm: {
+        type: "string",
+        default: {},
+      },
     },
   },
 });

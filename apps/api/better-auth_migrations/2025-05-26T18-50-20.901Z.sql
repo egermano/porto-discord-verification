@@ -1,0 +1,1 @@
+alter table "user" add column "leadForm" text not null;
