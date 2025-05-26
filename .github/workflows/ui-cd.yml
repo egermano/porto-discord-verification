@@ -1,4 +1,4 @@
-name: CD - UI Edge Deploy
+name: CD - UI Azion Deploy
 
 on:
   pull_request:
@@ -48,4 +48,4 @@ jobs:
         working-directory: apps/ui
         run: |
           azion -t ${{ secrets.AZION_PERSONAL_TOKEN }}
-          azion deploy
+          azion deploy --local
