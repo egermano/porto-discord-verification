@@ -13,15 +13,18 @@
   "author": "aziontech",
   "license": "ISC",
   "dependencies": {
+    "@discordeno/rest": "^21.0.0",
     "@hono/zod-validator": "^0.5.0",
     "azion": "latest",
     "better-auth": "^1.2.8",
+    "discordeno": "^21.0.0",
     "dotenv": "^16.5.0",
     "hono": "^4.7.9",
     "kysely": "^0.28.2",
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@discordeno/types": "^21.0.0",
     "edge-functions": "5.0.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
