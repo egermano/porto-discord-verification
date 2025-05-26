@@ -1,9 +1,9 @@
-name: CD - UI Azion Deploy
+name: CD - API Azion Deploy
 
 on:
   pull_request:
     path:
-      - apps/ui/**/*
+      - apps/api/**/*
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
@@ -45,7 +45,7 @@ jobs:
           sudo chmod u+x /usr/bin/azion
 
       - name: Azion Action Deploy
-        working-directory: apps/ui
+        working-directory: apps/api
         run: |
           azion -t ${{ secrets.AZION_PERSONAL_TOKEN }}
           azion deploy --local

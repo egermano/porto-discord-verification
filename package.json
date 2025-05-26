@@ -17,6 +17,5 @@
   "license": "ISC",
   "workspaces": [
     "apps/*"
-  ],
-  "dependencies": {}
+  ]
 }

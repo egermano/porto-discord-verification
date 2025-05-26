@@ -1,18 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
+import { APP_BASE_URL } from "@/constants";
+import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function DiscordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
-  
-  const gotToLeadForm = () => {
-    router.push("/form");
+  const gotToLeadForm = async () => {
+    await authClient.linkSocial({
+      provider: "discord",
+      callbackURL: `${APP_BASE_URL}/form`,
+    });
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

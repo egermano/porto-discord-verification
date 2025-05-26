@@ -1,23 +1,23 @@
-name: UI CI
+name: API CI
 
 on:
   push:
     path:
-      - apps/ui/**/*
+      - apps/api/**/*
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
-      - .github/workflows/ui-ci.yml
+      - .github/workflows/api-ci.yml
     branches:
       - main
       - canary
   pull_request:
     path:
-      - apps/ui/**/*
+      - apps/api/**/*
       - package.json
       - pnpm-lock.yaml
       - pnpm-workspace.yaml
-      - .github/workflows/ui-ci.yml
+      - .github/workflows/api-ci.yml
     branches:
       - main
       - canary
@@ -44,9 +44,9 @@ jobs:
         run: pnpm install
 
       # - name: Run tests
-      #   working-directory: apps/ui
+      #   working-directory: apps/api
       #   run: pnpm test
 
       - name: Build project
-        working-directory: apps/ui
+        working-directory: apps/api
         run: pnpm build

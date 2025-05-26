@@ -86,12 +86,17 @@ class FetchConnection {
       true
     );
 
+    // error handling
+    if (response.data[0].error) {
+      throw new Error(`Azion Dialect: ${response.data[0].error}`);
+    }
+
     // Transform the response into [{[column_name]: [row_value]}]
     const { columns, rows } = response.data[0].results;
     const transformedRows = rows.map((row: any[]) =>
       columns.reduce((acc: any, col: string, idx: number) => {
-      acc[col] = row[idx];
-      return acc;
+        acc[col] = row[idx];
+        return acc;
       }, {})
     );
 

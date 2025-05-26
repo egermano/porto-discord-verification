@@ -1,29 +1,25 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { config } from "@/config";
+import { APP_BASE_URL } from "@/constants";
 import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
-
   const loginTo = (provider: "github" | "google") => async () => {
-    await authClient.signIn.social(
-      {
-        provider,
-        callbackURL: `${window.location.origin}/discord`,
-        // TODO: create /error page
-        errorCallbackURL: `${window.location.origin}/error`,
-        fetchOptions: {
-          credentials: "include",
-        },
+    await authClient.signIn.social({
+      provider,
+      callbackURL: `${APP_BASE_URL}/discord`,
+      // TODO: create /error page
+      errorCallbackURL: `${APP_BASE_URL}/error`,
+      fetchOptions: {
+        credentials: "include",
       },
-    );
+    });
   };
 
   return (

@@ -1,27 +1,33 @@
-import { auth } from "@/lib/auth";
-import { createRouter } from "@/lib/create-app";
+import { Session, User } from "@/lib/auth";
+import { authRouter, sessionMiddleware } from "@/routes/auth";
+import { userRoute } from "@/routes/user";
 import { cors } from "hono/cors";
 import { Hono } from "hono/quick";
 
-const app = new Hono();
+const app = new Hono<{
+  Variables: {
+    user: User | null;
+    session: Session | null;
+  };
+}>();
+
+// CORS
 app.use(
-	"/api/auth/*", // or replace with "*" to enable cors for all routes
-	cors({
-		origin: "http://localhost:3000", // replace with your origin
-		allowHeaders: ["Content-Type", "Authorization"],
-		allowMethods: ["POST", "GET", "OPTIONS"],
-		exposeHeaders: ["Content-Length"],
-		maxAge: 600,
-		credentials: true,
-	}),
+  "/api/*", // or replace with "*" to enable cors for all routes
+  cors({
+    origin: "http://localhost:3000", // replace with your origin
+    allowHeaders: ["Content-Type", "Authorization"],
+    allowMethods: ["POST", "GET", "PUT", "PATCH", "OPTIONS"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+    credentials: true,
+  })
 );
-const authRouter = createRouter();
 
-authRouter.on(["POST", "GET"], "/auth/**", (c) => {
-  return auth.handler(c.req.raw);
-});
+// Session Middleware
+app.use("*", sessionMiddleware);
 
-const routes = [authRouter] as const;
+const routes = [authRouter, userRoute] as const;
 
 routes.forEach((route) => {
   app.basePath("/api").route("/", route);

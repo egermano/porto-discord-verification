@@ -8,89 +8,75 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { API_BASE_URL } from "@/constants";
+import { authClient } from "@/lib/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { formQuestions } from "./lead-form-questions";
+import { LeadFormInput } from "./lead-input";
+import { FormField } from "./ui/form";
 
-interface Question {
-  question: string;
-  type: "radio" | "checkbox" | "select";
-  instruction?: string;
-  options: Record<string, string>;
-}
-
-// Questions to be rendered
-const formQuestions: Question[] = [
-  {
-    question: "What is your role?",
-    type: "radio",
-    instruction: "Please select one option.",
-    options: {
-      developer: "Developer",
-      designer: "Designer",
-      manager: "Manager",
-      other: "Other",
-    },
-  },
-  {
-    question: "Whats is your company size?",
-    type: "select",
-    instruction: "Please select one option.",
-    options: {
-      small: "1-10",
-      medium: "11-50",
-      large: "51-200",
-      enterprise: "201+",
-    },
-  },
-  {
-    question: "What technologies do you use?",
-    type: "checkbox",
-    instruction: "Select all that apply.",
-    options: {
-      react: "React",
-      vue: "Vue",
-      angular: "Angular",
-      svelte: "Svelte",
-      other: "Other",
-    },
-  },
-  {
-    question: "How did you hear about us?",
-    type: "radio",
-    instruction: "Please select one option.",
-    options: {
-      youtube: "YouTube",
-      google: "Google",
-      twitter: "Twitter",
-      friend: "Friend",
-      other: "Other",
-    },
-  },
-];
+const formSchema = z.object({
+  questions: z.array(
+    z.object({
+      question: z.string().min(1, "Question is required"),
+      answer: z.string().min(1, "Answer is required"),
+    })
+  ),
+});
 
 export default function LeadForm() {
   const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  // 1. Define your form.
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      questions: formQuestions.map((q) => ({
+        question: q.question,
+        answer: "", // Initialize with empty string or appropriate default
+      })),
+    },
+  });
+  const { handleSubmit } = form;
+
+  // 2. Define a submit handler.
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+
+    const leadFormValue = JSON.stringify(values.questions);
+    await authClient.updateUser({
+      // @ts-expect-error
+      leadForm: leadFormValue,
+    });
+
+    const response = await authClient.$fetch(
+      `${API_BASE_URL}/api/user/success`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          done: true,
+        }),
+      }
+    );
+    console.log(response);
+
     // Handle form submission logic here
     console.log("Form submitted");
     router.push("/success");
-  };
+  }
 
   return (
     <form
       className="flex flex-col items-center justify-center space-y-4"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       {formQuestions.map((question, index) => (
         <Card key={question.question} className="w-full">
@@ -99,47 +85,17 @@ export default function LeadForm() {
             <CardDescription>{question.instruction || ""}</CardDescription>
           </CardHeader>
           <CardContent>
-            {question.type === "checkbox" && (
-              <div className="grid grid-cols-2 gap-4">
-                {Object.entries(question.options).map(([key, value]) => (
-                  <div key={key} className="flex items-center space-x-2">
-                    <Checkbox id={key} name={key} />
-                    <Label
-                      htmlFor={key}
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      {value}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {question.type === "radio" && (
-              <RadioGroup className="grid grid-cols-2 gap-4">
-                {Object.entries(question.options).map(([key, value]) => (
-                  <div key={key} className="flex items-center space-x-2">
-                    <RadioGroupItem value={key} id={key} />
-                    <Label htmlFor="r1">{value}</Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            )}
-
-            {question.type === "select" && (
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an option" />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(question.options).map(([key, value]) => (
-                    <SelectItem key={key} value={key}>
-                      {value}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            )}
+            <FormField
+              control={form.control}
+              name={`questions.${index}.answer`}
+              render={({ field }) => (
+                <LeadFormInput
+                  question={question}
+                  value={field.value}
+                  onChange={(e) => field.onChange(e.target.value)}
+                />
+              )}
+            />
           </CardContent>
         </Card>
       ))}
