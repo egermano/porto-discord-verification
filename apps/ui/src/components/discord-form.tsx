@@ -9,11 +9,16 @@ export function DiscordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  let currentLocation = null;
+
+  if (typeof window !== "undefined") {
+    currentLocation = window.location; // Access location only in the browser
+  }
 
   const gotToLeadForm = async () => {
     await authClient.linkSocial({
       provider: "discord",
-      callbackURL: `${window.location.origin}/form`,
+      callbackURL: `${currentLocation?.origin}/form`,
     });
   };
   return (

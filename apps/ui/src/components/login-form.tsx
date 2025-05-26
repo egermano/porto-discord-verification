@@ -4,21 +4,24 @@ import { config } from "@/config";
 import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const router = useRouter();
+  let currentLocation = null;
+
+  if (typeof window !== "undefined") {
+    currentLocation = window.location; // Access location only in the browser
+  }
 
   const loginTo = (provider: "github" | "google") => async () => {
     await authClient.signIn.social(
       {
         provider,
-        callbackURL: `${window.location.origin}/discord`,
+        callbackURL: `${currentLocation?.origin}/discord`,
         // TODO: create /error page
-        errorCallbackURL: `${window.location.origin}/error`,
+        errorCallbackURL: `${currentLocation?.origin}/error`,
         fetchOptions: {
           credentials: "include",
         },
