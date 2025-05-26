@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
+import { API_BASE_URL } from "@/constants";
 import { authClient } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -55,7 +55,7 @@ export default function LeadForm() {
     });
 
     const response = await authClient.$fetch(
-      "http://localhost:3333/api/user/success",
+      `${API_BASE_URL}/api/user/success`,
       {
         method: "PATCH",
         headers: {

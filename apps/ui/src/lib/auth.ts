@@ -1,10 +1,11 @@
+import { API_BASE_URL } from "@/constants";
 import { jwt } from "better-auth/plugins";
 import { createAuthClient } from "better-auth/react";
 
 export let token: string | null = null;
 
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:3333", // The base URL of your auth server
+  baseURL: API_BASE_URL, // The base URL of your auth server
   basePath: "/api/auth", // The base path of your auth server
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
