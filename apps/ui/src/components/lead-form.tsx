@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { authClient } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -18,7 +19,7 @@ import { LeadFormInput } from "./lead-input";
 import { FormField } from "./ui/form";
 
 const formSchema = z.object({
-  question: z.array(
+  questions: z.array(
     z.object({
       question: z.string().min(1, "Question is required"),
       answer: z.string().min(1, "Answer is required"),
@@ -33,33 +34,49 @@ export default function LeadForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      question: formQuestions.map((q) => ({
+      questions: formQuestions.map((q) => ({
         question: q.question,
         answer: "", // Initialize with empty string or appropriate default
       })),
     },
   });
-
-  console.log(form.watch());
+  const { handleSubmit } = form;
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-  }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    const leadFormValue = JSON.stringify(values.questions);
+    await authClient.updateUser({
+      // @ts-expect-error
+      leadForm: leadFormValue,
+    });
+
+    const response = await authClient.$fetch(
+      "http://localhost:3333/api/user/success",
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          done: true,
+        }),
+      }
+    );
+    console.log(response);
+
     // Handle form submission logic here
     console.log("Form submitted");
     router.push("/success");
-  };
+  }
 
   return (
     <form
       className="flex flex-col items-center justify-center space-y-4"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       {formQuestions.map((question, index) => (
         <Card key={question.question} className="w-full">
@@ -70,7 +87,7 @@ export default function LeadForm() {
           <CardContent>
             <FormField
               control={form.control}
-              name={`question.${index}.answer`}
+              name={`questions.${index}.answer`}
               render={({ field }) => (
                 <LeadFormInput
                   question={question}
