@@ -11,10 +11,10 @@ export default function OnboardingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
 
   return (
-    <div className="flex flex-col grow">
+    <div className="flex flex-col gap-4 md:grow">
       <Steps />
       <div className="flex flex-col grow">{children}</div>
     </div>
