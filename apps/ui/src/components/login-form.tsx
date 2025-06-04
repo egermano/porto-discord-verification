@@ -32,7 +32,7 @@ export function LoginForm({
             </div>
             <span className="sr-only">{config.appName}</span>
           </a>
-          <h1 className="text-xl font-bold">Welcome to {config.appName}.</h1>
+          <h1 className="text-xl font-bold text-center">Welcome to {config.appName}.</h1>
         </div>
 
         <div className="flex flex-col gap-4">
