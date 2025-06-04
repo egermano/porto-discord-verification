@@ -3,17 +3,39 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { config } from "@/config";
 import { APP_BASE_URL } from "@/constants";
-import { authClient } from "@/lib/auth";
+import { authClient, useSession } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean | string>(false);
+  const {
+    data: session,
+    isPending, //loading state
+  } = useSession();
+
+  useEffect(() => {
+    if (!isPending && session && session.user) {
+      toast("Welcome back!", {
+        description: "You are now logged in. Redirrecting to next step...",
+        position: "top-center",
+      });
+      router.push("/discord");
+      return;
+    }
+
+    if (!isPending && !session) {
+      setIsLoading(false);
+    }
+  }, [isPending, session, router]);
 
   const loginTo = (provider: "github" | "google") => async () => {
     setIsLoggingIn(provider);
@@ -37,6 +59,10 @@ export function LoginForm({
       );
     }
   };
+
+  if (isPending || isLoading) {
+    return <Spinner size="large" />;
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
