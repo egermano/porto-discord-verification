@@ -1,20 +1,36 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { config } from "@/config";
 import { APP_BASE_URL } from "@/constants";
 import { authClient } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { GalleryVerticalEnd } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export function DiscordForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+
   const gotToLeadForm = async () => {
-    await authClient.linkSocial({
+    setIsLoggingIn(true);
+    const response = await authClient.linkSocial({
       provider: "discord",
       callbackURL: `${APP_BASE_URL}/form`,
     });
+
+    if (!response || response.error) {
+      setIsLoggingIn(false);
+      toast.error(
+        `An error occurred while logging in with Discord. Please try again.`,
+        {
+          position: "top-center",
+        }
+      );
+    }
   };
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -45,6 +61,7 @@ export function DiscordForm({
               />
             </svg>
             Connect with Discord
+            {isLoggingIn && <Spinner size="small" />}
           </Button>
         </div>
       </div>
