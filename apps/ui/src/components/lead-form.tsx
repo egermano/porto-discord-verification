@@ -36,9 +36,11 @@ export default function LeadForm() {
 
   useEffect(() => {
     // Check user data when the component mounts
-    checkUser().then(() => {
-      setIsLoading(false);
-    });
+    if (!isLoading) {
+      checkUser();
+    }
+
+    setIsLoading(true);
   }, []);
 
   const checkUser = async () => {
@@ -54,7 +56,8 @@ export default function LeadForm() {
       });
 
       if (response && response.data?.done) {
-        return router.push("/success");
+        router.push("/success");
+        return;
       }
 
       if (!response || response.error) {
@@ -76,7 +79,8 @@ export default function LeadForm() {
         });
 
         await authClient.signOut();
-        return router.push("/");
+        router.push("/");
+        return;
       }
     } catch (error) {
       toast.error("Something went wrong", {
@@ -85,6 +89,8 @@ export default function LeadForm() {
       });
       return router.push("/");
     }
+
+    setIsLoading(false);
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -130,11 +136,7 @@ export default function LeadForm() {
   }
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Spinner size="large" />
-      </div>
-    );
+    return <Spinner size="large" />;
   }
 
   return (
