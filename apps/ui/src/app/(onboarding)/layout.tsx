@@ -1,4 +1,5 @@
 import Steps from "@/components/steps";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,11 +12,10 @@ export default function OnboardingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <div className="flex flex-col gap-4 md:grow">
       <Steps />
+      <Toaster />
       <div className="flex flex-col grow">{children}</div>
     </div>
   );
