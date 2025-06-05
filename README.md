@@ -19,4 +19,4 @@ The Porto Discord Verification bot aims to:
 
 ## How to Collaborate
 
-We welcome contributions to help improve the Porto Discord Verification bot! Here's how you can get involved, [CONTRIBUTING.md](CONTRIBUTING.md).
+We welcome contributions to help improve the Porto Discord Verification bot! Here's how you can get involved, [CONTRIBUTING](CONTRIBUTING.md).
