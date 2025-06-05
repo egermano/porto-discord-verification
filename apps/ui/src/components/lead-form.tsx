@@ -16,7 +16,7 @@ import { API_BASE_URL } from "@/constants";
 import { authClient } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -34,16 +34,7 @@ export default function LeadForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Check user data when the component mounts
-    if (!isLoading) {
-      checkUser();
-    }
-
-    setIsLoading(true);
-  }, []);
-
-  const checkUser = async () => {
+  const checkUser = useCallback(async () => {
     try {
       const response = await authClient.$fetch<{
         message: string;
@@ -91,7 +82,16 @@ export default function LeadForm() {
     }
 
     setIsLoading(false);
-  };
+  }, [router]);
+
+  useEffect(() => {
+    // Check user data when the component mounts
+    if (!isLoading) {
+      checkUser();
+    }
+
+    setIsLoading(true);
+  }, [isLoading, checkUser]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
