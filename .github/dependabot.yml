@@ -1,0 +1,16 @@
+# .github/dependabot.yml
+version: 2
+updates:
+  # Habilita atualizações para pacotes npm
+  - package-ecosystem: 'pnpm'
+    # Diretório onde está localizado o package.json e o package-lock.json
+    directory: '/'
+    # Programa as verificações de atualização
+    schedule:
+      interval: 'monthly' # ou "weekly", "daily", "monthly"
+    # Limita o número de Pull Requests abertas pelo Dependabot
+    open-pull-requests-limit: 10
+    # Define a estratégia de versão para atualizações
+    versioning-strategy: 'auto' # ou "lockfile-only", "widen", "increase", "increase-if-necessary"
+
+# Configurações adicionais podem ser necessárias dependendo da complexidade do seu projeto
