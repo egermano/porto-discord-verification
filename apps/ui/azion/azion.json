@@ -3,7 +3,7 @@
   "bucket": "porto-discord-ui",
   "preset": "next",
   "env": "production",
-  "prefix": "20250526212852",
+  "prefix": "20250604202525",
   "not-first-run": true,
   "function": {
     "id": 43162,
