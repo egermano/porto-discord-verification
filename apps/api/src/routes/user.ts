@@ -22,7 +22,10 @@ userRoute.get(
   ) => {
     const user = c.var.user;
 
+    console.log("Checking user information...");
+
     if (!user) {
+      console.warn("User is not authenticated.");
       return c.json(
         {
           error: "Unauthorized",
@@ -42,6 +45,7 @@ userRoute.get(
     );
 
     if (!discordAccount) {
+      console.warn("Discord account not linked for user:", user.id);
       return c.json(
         {
           error: "Discord account not linked",
@@ -57,6 +61,7 @@ userRoute.get(
     let member;
 
     try {
+      console.log("Fetching Discord member for user:", discordUserId);
       member = await client.getMember(DISCORD_GUILD_ID, discordUserId);
     } catch (error) {
       console.error("Error fetching Discord member:", error);
@@ -70,6 +75,9 @@ userRoute.get(
     }
 
     if (!member) {
+      console.warn(
+        `Discord member not found for user ID: ${discordUserId}`
+      );
       return c.json(
         {
           error: "Discord member not found",
@@ -84,14 +92,17 @@ userRoute.get(
     const roleId = await getRoleId(DISCORD_ROLE_NAME, DISCORD_GUILD_ID);
     const hasRole = member.roles.includes(roleId);
 
-    if (!hasRole) {
+    if (!hasRole && !user.leadForm) {
+      console.warn(
+        `User ${user.id} does not have the required Discord role: ${DISCORD_ROLE_NAME}`
+      );
       return c.json(
         {
           message:
             "You have not been assigned the required role in Discord yet.",
           done: false,
         },
-        { status: 202 }
+        { status: 200 }
       );
     }
 
@@ -118,7 +129,10 @@ const handleSuccess = async (
 ) => {
   const user = c.var.user;
 
+  console.log("Handling success for user:", user?.id);
+
   if (!user) {
+    console.warn("User is not authenticated.");
     return c.json(
       {
         error: "Unauthorized",
@@ -138,6 +152,8 @@ const handleSuccess = async (
   );
 
   if (!discordAccount) {
+    console.warn("Discord account not linked for user:", userId);
+
     return c.json(
       {
         error: "Discord account not linked",
@@ -154,6 +170,10 @@ const handleSuccess = async (
     const member = await client.getMember(DISCORD_GUILD_ID, discordUserId);
 
     if (!member) {
+      console.warn(
+        `Discord member not found for user ID: ${discordUserId}`
+      );
+
       return c.json(
         {
           error: "Discord member not found",
@@ -168,6 +188,9 @@ const handleSuccess = async (
 
     await client.addRole(DISCORD_GUILD_ID, discordUserId, roleId);
 
+    console.log(
+      `Assigned role ${DISCORD_ROLE_NAME} to user ${userId} in Discord.`
+    );
     return c.json({
       message: `User ${userId} updated successfully and Discord role assigned.`,
     });

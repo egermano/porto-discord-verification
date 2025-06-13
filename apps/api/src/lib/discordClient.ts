@@ -12,6 +12,7 @@ export const getRoleId = async (
   roleName: string,
   guildId: string
 ): Promise<string> => {
+  console.log("Fetching or creating role:", roleName, "in guild:", guildId);
   try {
     // Check if the role exists
     let roleId;
@@ -20,6 +21,7 @@ export const getRoleId = async (
 
     // creat the role if it doesn't exist
     if (!role) {
+      console.log(`Role "${roleName}" not found, creating a new role.`);
       const newRole = await REST.createRole(guildId, {
         name: roleName,
         mentionable: false,
@@ -27,6 +29,7 @@ export const getRoleId = async (
       });
       roleId = newRole.id;
     } else {
+      console.log(`Role "${roleName}" found with ID: ${role.id}`);
       roleId = role.id;
     }
 
