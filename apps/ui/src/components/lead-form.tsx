@@ -88,9 +88,9 @@ export default function LeadForm() {
     // Check user data when the component mounts
     if (!isLoading) {
       checkUser();
+      setIsLoading(true);
     }
 
-    setIsLoading(true);
   }, [isLoading, checkUser]);
 
   const form = useForm<z.infer<typeof formSchema>>({
